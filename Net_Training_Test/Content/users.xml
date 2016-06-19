@@ -12,4 +12,10 @@
     <YearBorn>1983</YearBorn>
     <Phone>+7987832212</Phone>
   </Person>
+  <Person id="3">
+    <Surname>Грушевский</Surname>
+    <Name>Лось</Name>
+    <YearBorn>1992</YearBorn>
+    <Phone>+79878765432</Phone>
+  </Person>
 </People>

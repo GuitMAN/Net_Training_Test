@@ -1,6 +1,7 @@
 ﻿using Net_Training_Test.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -15,12 +16,6 @@ namespace Net_Training_Test.Controllers
 
         ///private string xmlurl;
         private Repository People;
-
-        public HomeController()
-        {
-            
-          
-        }
 
         [HttpGet]
         public ActionResult Index()
@@ -50,17 +45,25 @@ namespace Net_Training_Test.Controllers
         }
 
         [HttpGet]
-        public ActionResult edit(int id)
+        public ActionResult edit(string id)
         {
-            People = new Repository(Request.PhysicalPath + "/Content/users.xml");
-            Person person = new Person();
-            return View(person);
+            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            return View(People.getPerson(id));
         }
 
         [HttpPost]
         public ActionResult edit(Person person)
         {
-            return View();
+            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            People.updatePerson(person);
+            return Redirect("Index");
+        }
+
+        public ActionResult delete(int id = 0)
+        {
+            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            People.delPerson(id);
+            return RedirectToAction("Index");
         }
 
     }
