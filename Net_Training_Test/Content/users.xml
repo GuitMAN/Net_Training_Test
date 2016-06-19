@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<People>
+  <Person id="1">
+    <Surname>Дементьева</Surname>
+    <Name>Евгения</Name>
+    <YearBorn>1991</YearBorn>
+    <Phone>+79170259882</Phone>
+  </Person>
+  <Person id="2">
+    <Surname>Дементьев</Surname>
+    <Name>Владимир</Name>
+    <YearBorn>1983</YearBorn>
+    <Phone>+7987832212</Phone>
+  </Person>
+</People>

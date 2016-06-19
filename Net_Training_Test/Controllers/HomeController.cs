@@ -1,30 +1,67 @@
-﻿using System;
+﻿using Net_Training_Test.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 
 namespace Net_Training_Test.Controllers
 {
     public class HomeController : Controller
     {
+        //private People;
+
+        ///private string xmlurl;
+        private Repository People;
+
+        public HomeController()
+        {
+            
+          
+        }
+
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            //string tt = Request.PhysicalPath;
+            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            return View(People.getList());
         }
 
-        public ActionResult About()
+        [HttpGet]
+        public ActionResult create()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            return View(new Person());
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult create(Person person)
         {
-            ViewBag.Message = "Your contact page.";
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("YearBorn", "Form is not valid");
+                return View(person);
+            }
+            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            People.addPerson(person);
+            return Redirect("Index");
+        }
 
+        [HttpGet]
+        public ActionResult edit(int id)
+        {
+            People = new Repository(Request.PhysicalPath + "/Content/users.xml");
+            Person person = new Person();
+            return View(person);
+        }
+
+        [HttpPost]
+        public ActionResult edit(Person person)
+        {
             return View();
         }
+
     }
 }
