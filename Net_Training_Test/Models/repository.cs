@@ -26,9 +26,11 @@ namespace Net_Training_Test.Models
         }
 
         //Return List of persons from file
-        public List<Person> getList()
+        //if param sort = 0 then no sort
+        //sort = 1 - sorting by Syrname
+        //sort = 2 - sorting by YearBorn
+        public List<Person> getList(int sort = 0)
         {
-
             foreach (XElement personElement in xRoot.Elements("Person"))
             {
                 Person temp = new Person();
@@ -47,6 +49,14 @@ namespace Net_Training_Test.Models
                     temp.Phone = personPhoneElem.Value;
                 }
                 Result.Add(temp);
+            }
+            if (sort == 1)
+            {
+                return Result.Select(p =>p).OrderBy(s => s.Surname).ToList();
+            }
+            if (sort == 2)
+            {
+                return Result.Select(p => p).OrderBy(s => s.YearBorn).ToList();
             }
             return Result;
         }

@@ -18,11 +18,11 @@ namespace Net_Training_Test.Controllers
         private Repository People;
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int sort = 0)
         {
             //string tt = Request.PhysicalPath;
             People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
-            return View(People.getList());
+            return View(People.getList(sort));
         }
 
         [HttpGet]
@@ -34,14 +34,15 @@ namespace Net_Training_Test.Controllers
         [HttpPost]
         public ActionResult create(Person person)
         {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("YearBorn", "Form is not valid");
-                return View(person);
-            }
+            //if ((person.YearBorn > DateTime.Now.Year) || (person.YearBorn < 1900))
+            //{              
+            //    ModelState.AddModelError("YearBorn", "Are you shure?");
+            //    return View(person);
+            //}
+
             People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
             People.addPerson(person);
-            return Redirect("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -56,7 +57,7 @@ namespace Net_Training_Test.Controllers
         {
             People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
             People.updatePerson(person);
-            return Redirect("Index");
+            return RedirectToAction("Index");
         }
 
         public ActionResult delete(int id = 0)

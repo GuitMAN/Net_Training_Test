@@ -19,6 +19,7 @@ namespace Net_Training_Test.Models
 
         [Required(ErrorMessage = "Required field")]
         [DisplayName("Year of Born:")]
+        [Range(1900, 2016, ErrorMessage = "Invalid year")]
         public int YearBorn { get; set; }
 
         [Required(ErrorMessage = "Required field")]
