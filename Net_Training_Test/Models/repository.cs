@@ -33,24 +33,18 @@ namespace Net_Training_Test.Models
         //sort = 2 - sorting by YearBorn
         public List<Person> getList(int sort = 0)
         {
-            foreach (XElement personElement in xRoot.Elements("Person"))
+            //Iterate through the entire list
+            foreach (XElement xe in xRoot.Elements("Person").ToList())
             {
-                Person temp = new Person();
-                XAttribute nameAttribute = personElement.Attribute("id");
-                XElement personSurnameElem = new XElement("Surname", personElement.Element("Surname"));
-                XElement personNameElem = new XElement("Name", personElement.Element("Name"));
-                XElement personYearBornElem = new XElement("YearBorn", personElement.Element("YearBorn"));
-                XElement personPhoneElem = new XElement("Phone", personElement.Element("Phone"));
-
-                if (nameAttribute != null && personSurnameElem != null && personNameElem != null)
-                {
-                    temp.Id = Convert.ToInt32(nameAttribute.Value);
-                    temp.Surname = personSurnameElem.Value;
-                    temp.Name = personNameElem.Value;
-                    temp.YearBorn = Convert.ToInt32(personYearBornElem.Value);
-                    temp.Phone = personPhoneElem.Value;
-                }
-                Result.Add(temp);
+                 Person person = new Person(); 
+                
+                //get person item to temporary variable person
+                person.Id = Convert.ToInt32(xe.Attribute("id").Value);
+                person.Surname = xe.Element("Surname").Value;
+                person.Name = xe.Element("Name").Value;
+                person.YearBorn = Convert.ToInt32(xe.Element("YearBorn").Value);
+                person.Phone = xe.Element("Phone").Value;
+                Result.Add(person);
             }
             if (sort == 1)
             {
@@ -71,9 +65,10 @@ namespace Net_Training_Test.Models
 
             //Determine the maximum id
             int id = 0;
+            //Iterate through the entire list
             foreach (XElement xe in xRoot.Elements("Person").ToList())
             {
-                
+                //Looking for the highest id value
                 if (Convert.ToInt32(xe.Attribute("id").Value) > id)
                 {
                     id = Convert.ToInt32(xe.Attribute("id").Value);
@@ -81,17 +76,12 @@ namespace Net_Training_Test.Models
             }
             //Create attribute and elements of Person
             //++id - The increment of id 
-            XAttribute personNameAttr = new XAttribute("id", ++id);
-            XElement personSurnameElem = new XElement("Surname", person.Surname);
-            XElement personNameElem = new XElement("Name", person.Name);
-            XElement personYearBornElem = new XElement("YearBorn", person.YearBorn);
-            XElement personPhoneElem = new XElement("Phone", person.Phone);
             // Add attr and elements
-            Person.Add(personNameAttr);
-            Person.Add(personSurnameElem);
-            Person.Add(personNameElem);
-            Person.Add(personYearBornElem);
-            Person.Add(personPhoneElem);
+            Person.Add(new XAttribute("id", ++id));
+            Person.Add(new XElement("Surname", person.Surname));
+            Person.Add(new XElement("Name", person.Name));
+            Person.Add(new XElement("YearBorn", person.YearBorn));
+            Person.Add(new XElement("Phone", person.Phone));
             //Add all to parent element
             xRoot.Add(Person);
             ///Save xml file
@@ -102,6 +92,7 @@ namespace Net_Training_Test.Models
         //Update item Person
         public string updatePerson(Person person)
         {
+            //Iterate through the entire list
             foreach (XElement xe in xRoot.Elements("Person").ToList())
             {
                 // The search item id
@@ -112,10 +103,12 @@ namespace Net_Training_Test.Models
                     xe.Element("Name").Value = person.Name;
                     xe.Element("YearBorn").Value = person.YearBorn.ToString();
                     xe.Element("Phone").Value = person.Phone;
+                    //Save xml file after update
+                    xDoc.Save(Xmlurl);
+                    return null;
                 }
             }
-            xDoc.Save(Xmlurl);
-            return null;
+            return "Not Found";
         }
 
 
@@ -123,13 +116,13 @@ namespace Net_Training_Test.Models
         public Person getPerson(string id)
         {
             Person person = new Person();
-
+            //Iterate through the entire list
             foreach (XElement xe in xRoot.Elements("Person").ToList())
             {
                 // The search item id
                 if (xe.Attribute("id").Value.Equals(id))
                 {
-                    //get person item
+                    //get person item 
                     person.Surname=xe.Element("Surname").Value;
                     person.Name = xe.Element("Name").Value;
                     person.YearBorn = Convert.ToInt32(xe.Element("YearBorn").Value);
@@ -140,33 +133,39 @@ namespace Net_Training_Test.Models
         }
 
 
-        //Get person for id
+        //Search People by Surname, Name and Phone
         public List<Person> searchPerson(string Surname="", string Name = "", string Phone = "")
         {
+            //Iterate through the entire list
             foreach (XElement xe in xRoot.Elements("Person").ToList())
             {
+                //Create a temporary variable of Person
                 Person person = new Person();
+                //Flag is found element, false default
                 bool isfound  = false;
-                // The search item id
+
+                // The search item by Surname
                 if (Surname != "")
                 {
-                   // xe.Element("Surname").Value
                     if (xe.Element("Surname").Value.ToUpper().Contains(Surname.ToUpper()))
                     {
-                        //get person item
+                        //get person item to temporary variable person
                         person.Id = Convert.ToInt32(xe.Attribute("id").Value);
                         person.Surname = xe.Element("Surname").Value;
                         person.Name = xe.Element("Name").Value;
                         person.YearBorn = Convert.ToInt32(xe.Element("YearBorn").Value);
                         person.Phone = xe.Element("Phone").Value;
+                        //flag is true
                         isfound = true;
                     }
                 }
+
+                // The search item by Name
                 if (Name != "")
                 {
                     if (xe.Element("Name").Value.ToUpper().Contains(Name.ToUpper()))
                     {
-                        //get person item
+                        //get person item to temporary variable person
                         person.Id = Convert.ToInt32(xe.Attribute("id").Value);
                         person.Surname = xe.Element("Surname").Value;
                         person.Name = xe.Element("Name").Value;
@@ -175,11 +174,13 @@ namespace Net_Training_Test.Models
                         isfound = true;
                     }
                 }
+
+                // The search item by Phone
                 if (Phone != "")
                 {
                     if (xe.Element("Phone").Value.ToUpper().Contains(Phone.ToUpper()))
                     {
-                        //get person item
+                        //get person item to temporary variable person
                         person.Id = Convert.ToInt32(xe.Attribute("id").Value);
                         person.Surname = xe.Element("Surname").Value;
                         person.Name = xe.Element("Name").Value;
@@ -188,8 +189,10 @@ namespace Net_Training_Test.Models
                         isfound = true;
                     }
                 }
+                //If the flag is true then add person found to List
                 if (isfound) Result.Add(person);               
             }
+            //return the list of found person
             return Result;
         }
 
@@ -204,11 +207,12 @@ namespace Net_Training_Test.Models
                 {
                     //Remove item
                     xe.Remove();
+                    //Save to file
+                    xDoc.Save(Xmlurl);
+                    return null;
                 }
             }
-            //Save to file
-            xDoc.Save(Xmlurl);
-            return null;
+            return "Not found";
         }
 
     }
