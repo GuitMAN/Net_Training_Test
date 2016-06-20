@@ -8,9 +8,11 @@ namespace Net_Training_Test.Models
     //The class for working with list data models Person.
     public class Repository
     {
+        //filename xml
         string Xmlurl;
         private XDocument xDoc;
         private XElement  xRoot;
+        //List of Person
         private List<Person> Result;
         
         //Constructor of class Repository
@@ -27,7 +29,7 @@ namespace Net_Training_Test.Models
 
         //Return List of persons from file
         //if param sort = 0 then no sort
-        //sort = 1 - sorting by Syrname
+        //sort = 1 - sorting by Surname
         //sort = 2 - sorting by YearBorn
         public List<Person> getList(int sort = 0)
         {
@@ -139,23 +141,56 @@ namespace Net_Training_Test.Models
 
 
         //Get person for id
-        public Person searchPerson(string Surname, string Name, string Phone)
+        public List<Person> searchPerson(string Surname=null, string Name = null, string Phone = null)
         {
-            Person person = new Person();
-
             foreach (XElement xe in xRoot.Elements("Person").ToList())
             {
+                Person person = new Person();
+                bool isfound  = false;
                 // The search item id
-                if (xe.Element("Surname").Value.Equals(Surname))
+                if (Surname != null)
                 {
-                    //get person item
-                    person.Surname = xe.Element("Surname").Value;
-                    person.Name = xe.Element("Name").Value;
-                    person.YearBorn = Convert.ToInt32(xe.Element("YearBorn").Value);
-                    person.Phone = xe.Element("Phone").Value;
+                   // xe.Element("Surname").Value
+                    if (xe.Element("Surname").Value.ToUpper().Contains(Surname.ToUpper()))
+                    {
+                        //get person item
+                        person.Id = Convert.ToInt32(xe.Attribute("id").Value);
+                        person.Surname = xe.Element("Surname").Value;
+                        person.Name = xe.Element("Name").Value;
+                        person.YearBorn = Convert.ToInt32(xe.Element("YearBorn").Value);
+                        person.Phone = xe.Element("Phone").Value;
+                        isfound = true;
+                    }
                 }
+                if (Name != null)
+                {
+                    if (xe.Element("Name").Value.ToUpper().Contains(Name.ToUpper()))
+                    {
+                        //get person item
+                        person.Id = Convert.ToInt32(xe.Attribute("id").Value);
+                        person.Surname = xe.Element("Surname").Value;
+                        person.Name = xe.Element("Name").Value;
+                        person.YearBorn = Convert.ToInt32(xe.Element("YearBorn").Value);
+                        person.Phone = xe.Element("Phone").Value;
+                        isfound = true;
+                    }
+                }
+                if (Phone != null)
+                {
+                    if (xe.Element("Phone").Value.ToUpper().Contains(Phone.ToUpper()))
+                    {
+                        //get person item
+                        person.Id = Convert.ToInt32(xe.Attribute("id").Value);
+                        person.Surname = xe.Element("Surname").Value;
+                        person.Name = xe.Element("Name").Value;
+                        person.YearBorn = Convert.ToInt32(xe.Element("YearBorn").Value);
+                        person.Phone = xe.Element("Phone").Value;
+                        isfound = true;
+                    }
+                }
+                if (isfound) Result.Add(person);               
             }
-            return person;
+            return Result;
         }
 
 

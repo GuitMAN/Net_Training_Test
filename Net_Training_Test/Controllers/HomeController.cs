@@ -12,15 +12,11 @@ namespace Net_Training_Test.Controllers
 {
     public class HomeController : Controller
     {
-        //private People;
-
-        ///private string xmlurl;
         private Repository People;
 
         [HttpGet]
         public ActionResult Index(int sort = 0)
         {
-            //string tt = Request.PhysicalPath;
             People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
             return View(People.getList(sort));
         }
@@ -34,12 +30,6 @@ namespace Net_Training_Test.Controllers
         [HttpPost]
         public ActionResult create(Person person)
         {
-            //if ((person.YearBorn > DateTime.Now.Year) || (person.YearBorn < 1900))
-            //{              
-            //    ModelState.AddModelError("YearBorn", "Are you shure?");
-            //    return View(person);
-            //}
-
             People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
             People.addPerson(person);
             return RedirectToAction("Index");
@@ -65,6 +55,14 @@ namespace Net_Training_Test.Controllers
             People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
             People.delPerson(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Index(string Surname, string Name, string Phone)
+        {
+            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+
+            return View(People.searchPerson(Surname, Name, Phone));
         }
 
     }
