@@ -141,14 +141,14 @@ namespace Net_Training_Test.Models
 
 
         //Get person for id
-        public List<Person> searchPerson(string Surname=null, string Name = null, string Phone = null)
+        public List<Person> searchPerson(string Surname="", string Name = "", string Phone = "")
         {
             foreach (XElement xe in xRoot.Elements("Person").ToList())
             {
                 Person person = new Person();
                 bool isfound  = false;
                 // The search item id
-                if (Surname != null)
+                if (Surname != "")
                 {
                    // xe.Element("Surname").Value
                     if (xe.Element("Surname").Value.ToUpper().Contains(Surname.ToUpper()))
@@ -162,7 +162,7 @@ namespace Net_Training_Test.Models
                         isfound = true;
                     }
                 }
-                if (Name != null)
+                if (Name != "")
                 {
                     if (xe.Element("Name").Value.ToUpper().Contains(Name.ToUpper()))
                     {
@@ -175,7 +175,7 @@ namespace Net_Training_Test.Models
                         isfound = true;
                     }
                 }
-                if (Phone != null)
+                if (Phone != "")
                 {
                     if (xe.Element("Phone").Value.ToUpper().Contains(Phone.ToUpper()))
                     {
