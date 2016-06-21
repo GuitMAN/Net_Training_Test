@@ -96,7 +96,7 @@ namespace Net_Training_Test.Models
             foreach (XElement xe in xRoot.Elements("Person").ToList())
             {
                 // The search item id
-                if (xe.Attribute("id").Value.Equals(Convert.ToInt32(person.Id)))
+                if (xe.Attribute("id").Value.Equals(person.Id.ToString()))
                 {
                     //Save item with new values
                     xe.Element("Surname").Value = person.Surname;
@@ -147,6 +147,7 @@ namespace Net_Training_Test.Models
                 // The search item by Surname
                 if (Surname != "")
                 {
+                    //True if the value xe.Element contains the substring 'Surname'
                     if (xe.Element("Surname").Value.ToUpper().Contains(Surname.ToUpper()))
                     {
                         //get person item to temporary variable person
@@ -163,6 +164,7 @@ namespace Net_Training_Test.Models
                 // The search item by Name
                 if (Name != "")
                 {
+                    //True if the value xe.Element contains the substring 'Name'
                     if (xe.Element("Name").Value.ToUpper().Contains(Name.ToUpper()))
                     {
                         //get person item to temporary variable person
@@ -178,6 +180,7 @@ namespace Net_Training_Test.Models
                 // The search item by Phone
                 if (Phone != "")
                 {
+                    //True if the value xe.Element contains the substring 'YearBorn'
                     if (xe.Element("Phone").Value.ToUpper().Contains(Phone.ToUpper()))
                     {
                         //get person item to temporary variable person
@@ -198,18 +201,21 @@ namespace Net_Training_Test.Models
 
 
         //Delete item person
-        public string delPerson(int id)
+        public string delPerson(string id)
         {
-            foreach (XElement xe in xRoot.Elements("Person").ToList())
+            if (id != "")
             {
-                // The search item id
-                if (xe.Attribute("id").Value == id.ToString())
+                foreach (XElement xe in xRoot.Elements("Person").ToList())
                 {
-                    //Remove item
-                    xe.Remove();
-                    //Save to file
-                    xDoc.Save(Xmlurl);
-                    return null;
+                    // The search item id
+                    if (xe.Attribute("id").Value == id)
+                    {
+                        //Remove item
+                        xe.Remove();
+                        //Save to file
+                        xDoc.Save(Xmlurl);
+                        return null;
+                    }
                 }
             }
             return "Not found";

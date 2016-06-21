@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <People>
   <Person id="1">
-    <Surname>Дементьева</Surname>
-    <Name>Евгения</Name>
+    <Surname>Иванов</Surname>
+    <Name>Петр</Name>
     <YearBorn>1991</YearBorn>
-    <Phone>+79170259882</Phone>
+    <Phone>+79123456789</Phone>
   </Person>
   <Person id="2">
     <Surname>Дементьев</Surname>
     <Name>Владимир</Name>
-    <YearBorn>1983</YearBorn>
+    <YearBorn>198354</YearBorn>
     <Phone>+7987832212</Phone>
   </Person>
   <Person id="3">
-    <Surname>Грушевский</Surname>
+    <Surname>Северный</Surname>
     <Name>Лось</Name>
-    <YearBorn>1992</YearBorn>
-    <Phone>+79878765432</Phone>
+    <YearBorn>1967</YearBorn>
+    <Phone>+77058502030</Phone>
   </Person>
 </People>

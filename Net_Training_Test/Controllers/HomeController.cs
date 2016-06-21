@@ -1,18 +1,18 @@
 ﻿using Net_Training_Test.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Xml;
+
 
 namespace Net_Training_Test.Controllers
 {
     public class HomeController : Controller
     {
         private Repository People;
+        private void Loader()
+        {   //Loading file with data
+            //Request.PhysicalApplicationPath - Physical Application Path
+            //because for xmlloader required absolute path or url
+            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+        }
 
 
         //Main index page
@@ -22,10 +22,7 @@ namespace Net_Training_Test.Controllers
         [HttpGet]
         public ActionResult Index(int sort = 0)
         {
-            //Loading file with data
-            //Request.PhysicalApplicationPath - Physical Application Path
-            //because for xmlloader required absolute path or url
-            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            Loader();
             //View list of people
             return View(People.getList(sort));
         }
@@ -42,7 +39,7 @@ namespace Net_Training_Test.Controllers
         public ActionResult create(Person person)
         {
             //Loading file with data
-            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            Loader();
             //Adding person to file data
             People.addPerson(person);
             //Redirect to main list 
@@ -51,10 +48,10 @@ namespace Net_Training_Test.Controllers
 
         //View edit form for add the person 
         [HttpGet]
-        public ActionResult edit(string id)
+        public ActionResult edit(string id = "")
         {
             //Loading file with data
-            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            Loader();
             //View edit form for edit the person
             return View(People.getPerson(id));
         }
@@ -64,17 +61,17 @@ namespace Net_Training_Test.Controllers
         public ActionResult edit(Person person)
         {
             //Loading file with data
-            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            Loader();
             //Updating person to file data
             People.updatePerson(person);
             //Redirect to main list 
             return RedirectToAction("Index");
         }
 
-        public ActionResult delete(int id = 0)
+        public ActionResult delete(string id = "")
         {
             //Loading file with data
-            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            Loader();
             //Deleting person from file data
             People.delPerson(id);
             //Redirect to main list 
@@ -87,7 +84,7 @@ namespace Net_Training_Test.Controllers
         public ActionResult Index(string Surname, string Name, string Phone)
         {
             //Loading file with data
-            People = new Repository(Request.PhysicalApplicationPath + "/Content/users.xml");
+            Loader();
             //View list of found people
             return View(People.searchPerson(Surname, Name, Phone));
         }
