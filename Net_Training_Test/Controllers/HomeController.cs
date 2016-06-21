@@ -38,8 +38,13 @@ namespace Net_Training_Test.Controllers
         [HttpPost]
         public ActionResult create(Person person)
         {
+            //If the entered data is incorrect, then go back to fix
+            if (!ModelState.IsValid)
+                return View(person);
+
             //Loading file with data
             Loader();
+
             //Adding person to file data
             People.addPerson(person);
             //Redirect to main list 
@@ -60,6 +65,10 @@ namespace Net_Training_Test.Controllers
         [HttpPost]
         public ActionResult edit(Person person)
         {
+            //If the entered data is incorrect, then go back to fix
+            if (!ModelState.IsValid)
+                return View(person);
+
             //Loading file with data
             Loader();
             //Updating person to file data
