@@ -84,7 +84,7 @@ namespace Net_Training_Test.Models
             Person.Add(new XElement("Phone", person.Phone));
             //Add all to parent element
             xRoot.Add(Person);
-            ///Save xml file
+            //Save xml file
             xDoc.Save(Xmlurl);
             return null;
         }
@@ -214,6 +214,5 @@ namespace Net_Training_Test.Models
             }
             return "Not found";
         }
-
     }
 }
